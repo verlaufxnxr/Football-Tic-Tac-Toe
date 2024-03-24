@@ -1,0 +1,60 @@
+// script.js
+
+// Zufällige Kategorien aus einer Liste ziehen
+const categories = ["Verein 1", "Verein 2", "Verein 3", /* ... weitere Kategorien */];
+
+function getRandomCategory() {
+    return categories.splice(Math.floor(Math.random() * categories.length), 1)[0];
+}
+
+// Spielfeld generieren
+const gameContainer = document.getElementById("game-container");
+
+for (let row = 0; row < 3; row++) {
+    for (let col = 0; col < 3; col++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        cell.dataset.row = row;
+        cell.dataset.col = col;
+        gameContainer.appendChild(cell);
+    }
+}
+
+// Kategorien eintragen
+const category1 = document.getElementById("category1");
+const category2 = document.getElementById("category2");
+const category3 = document.getElementById("category3");
+
+document.getElementById("start-button").addEventListener("click", startGame);
+
+function startGame() {
+    const randomCategories = [getRandomCategory(), getRandomCategory(), getRandomCategory()];
+    category1.value = randomCategories[0];
+    category2.value = randomCategories[1];
+    category3.value = randomCategories[2];
+
+    // Hier kannst du die Tic Tac Toe Logik hinzufügen
+    // Zum Beispiel: Event Listener für Klicks auf die Zellen
+}
+KI-generierter Code. Überprüfen und sorgfältig verwenden. Weitere Informationen zu häufig gestellten Fragen.
+CSS-Styling: Erstelle eine CSS-Datei (z. B. styles.css), um das Spielfeld zu gestalten. Hier ist ein einfaches Beispiel:
+CSS
+
+/* styles.css */
+
+#game-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+}
