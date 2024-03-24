@@ -1,110 +1,116 @@
-// script.js
+function chooseRandomData(arrays, itemsPerArray) {
+    const result = [];
+    let remainingItems = itemsPerArray.reduce((acc, val) => acc + val, 0);
 
-// Zufällige Kategorien aus einer Liste ziehen
-const categories = [
-    "Manchester City",
+    arrays.forEach((array, index) => {
+        const numItems = Math.min(array.length, itemsPerArray[index], remainingItems);
+        for (let i = 0; i < numItems; i++) {
+            const randomIndex = Math.floor(Math.random() * array.length);
+            result.push(array[randomIndex]);
+            remainingItems--;
+        }
+    });
+
+    return result;
+}
+
+const categories = [    
+	"Brasilien",
+    "Argentinien",
+    "Deutschland",
+    "Spanien",
+    "Frankreich",
+    "England",
+    "Italien",
+    "Uruguay",];
+const categories2 = [    
+	"Manchester City",
     "Bayern München",
     "Real Madrid",
     "Paris SG",
     "FC Liverpool",
     "Inter Mailand",
-    "RB Leipzig",
     "FC Chelsea",
     "AS Rom",
     "Manchester Utd.",
     "Borussia Dortmund",
     "FC Barcelona",
-    "FC Sevilla",
     "Atlético Madrid",
     "Juventus Turin",
-    "FC Villarreal",
-    "SSC Neapel",
     "Bayer Leverkusen",
-    "FC Porto",
-    "Benfica",
-    "Atalanta Bergamo",
     "FC Arsenal",
     "Ajax Amsterdam",
-    "West Ham United",
-    "Shakhtar Donetsk",
     "AC Mailand",
-    "Olympique Lyon",
     "Tottenham Hotspur",
-    "Zenit St. Petersburg",
-    "Lazio Rom",
     "Olympique Marseille",
-    "Wolverhampton Wanderers",
     "Eintracht Frankfurt",
-    "Rangers FC",
-    "Leicester City",
-    "VfL Wolfsburg",
-    "AS Monaco",
-    "PSV Eindhoven",
-    "Celtic FC",
-    "FC Brügge",
-    "Spartak Moskau",
-    "FC Basel",
-    "Stade Rennes",
-    "Feyenoord Rotterdam",
-    "Dynamo Kiew",
-    "Racing Straßburg",
-    "FC Kopenhagen",
-    "Standard Lüttich",
-    "PAOK Thessaloniki",
-    "FC Zürich"
-];
-function getRandomCategory() {
-    return categories.splice(Math.floor(Math.random() * categories.length), 1)[0];
-}
+    "VfL Wolfsburg"];
+const categories3 = ["Bundesliga Meister", "Premier League Meister", "La Liga Meister", "Serie A Meister",];
+const categories4 = ["TW", "LV", "IV", "RV", "Trainer"];
+const categories5 = ["über 1,80m", "unter 1,75m", "EM-Sieger", "WM-Sieger", "UCL-Sieger", "tätowiert"];
 
-// Spielfeld generieren
-const gameContainer = document.getElementById("game-container");
+let originalCategories = categories.slice(); // Kopie der ursprünglichen Daten
+let originalCategories2 = categories2.slice();
+let originalCategories3 = categories3.slice();
+let originalCategories4 = categories4.slice();
+let originalCategories5 = categories5.slice();
 
-for (let row = 0; row < 3; row++) {
-    for (let col = 0; col < 3; col++) {
-        const cell = document.createElement("div");
-        cell.classList.add("cell");
-        cell.dataset.row = row;
-        cell.dataset.col = col;
-        gameContainer.appendChild(cell);
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
 }
 
-// Kategorien eintragen
-const category1 = document.getElementById("category1");
-const category2 = document.getElementById("category2");
-const category3 = document.getElementById("category3");
+function generateGameBoard() {
+    const gameBoard = document.getElementById('gameBoard');
 
-document.getElementById("start-button").addEventListener("click", startGame);
+    const itemsPerArray = [1, 2, 1, 1, 1]; // Anzahl der ausgewählten Elemente pro Array
+    const shuffledCategories = chooseRandomData([originalCategories, originalCategories2, originalCategories3, originalCategories4, originalCategories5], itemsPerArray);
+    shuffle(shuffledCategories);
 
-function startGame() {
-    const randomCategories = [getRandomCategory(), getRandomCategory(), getRandomCategory()];
-    category1.value = randomCategories[0];
-    category2.value = randomCategories[1];
-    category3.value = randomCategories[2];
-
-    // Hier kannst du die Tic Tac Toe Logik hinzufügen
-    // Zum Beispiel: Event Listener für Klicks auf die Zellen
-}
-KI-generierter Code. Überprüfen und sorgfältig verwenden. Weitere Informationen zu häufig gestellten Fragen.
-CSS-Styling: Erstelle eine CSS-Datei (z. B. styles.css), um das Spielfeld zu gestalten. Hier ist ein einfaches Beispiel:
-CSS
-
-/* styles.css */
-
-#game-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    for (let i = 1; i <= 4; i++) {
+        for (let j = 1; j <= 4; j++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            if (i === 1 && j > 1) {
+                cell.textContent = shuffledCategories[j - 2];
+            } else if (i > 1 && j === 1) {
+                cell.textContent = shuffledCategories[i + 1];
+            }
+            gameBoard.appendChild(cell);
+        }
+    }
 }
 
-.cell {
-    width: 100px;
-    height: 100px;
-    border: 1px solid #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    cursor: pointer;
+function resetGame() {
+    const gameBoard = document.getElementById('gameBoard');
+    gameBoard.innerHTML = '';
+    
+    // Wiederherstellen der ursprünglichen Daten
+    originalCategories = categories.slice();
+    originalCategories2 = categories2.slice();
+    originalCategories3 = categories3.slice();
+    originalCategories4 = categories4.slice();
+    originalCategories5 = categories5.slice();
+    
+    generateGameBoard();
+    assignClickHandlers(); // Füge Click-Handler wieder hinzu
 }
+
+generateGameBoard();
+assignClickHandlers(); // Initialzuweisung der Click-Handler
+
+function assignClickHandlers() {
+    document.querySelectorAll('.cell').forEach(cell => {
+        cell.addEventListener('click', () => {
+            if (!cell.textContent) { // Überprüfen, ob die Zelle leer ist
+                cell.textContent = currentPlayer;
+                cell.classList.add(currentPlayer); // Füge entsprechende Klasse hinzu
+                currentPlayer = currentPlayer === 'x' ? 'o' : 'x'; // Wechsel Spieler
+            }
+        });
+    });
+}
+
+let currentPlayer = 'x'; // Spieler 1 (X) beginnt
