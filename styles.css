@@ -1,19 +1,47 @@
-/* styles.css */
+body {
+    font-family: Arial, sans-serif; /* Ändere den Font auf Arial */
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Zentriere das Grid horizontal */
+    align-items: center; /* Zentriere das Grid vertikal */
+    height: 100vh; /* Setze die Höhe auf 100% der Bildschirmhöhe */
+}
 
-#game-container {
+.container {
+    text-align: center;
+}
+
+.game-board {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 Spalten */
-    grid-template-rows: repeat(4, 1fr); /* 4 Zeilen */
-    gap: 10px; /* Abstand zwischen den Zellen */
+    grid-template-columns: repeat(4, 200px);
+    grid-template-rows: repeat(4, 200px);
+    gap: 2px;
 }
 
 .cell {
-    width: 100px;
-    height: 100px;
-    border: 1px solid #000;
+    border: 1px solid black;
+	background-color: #A9A9A9;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     font-size: 18px;
-    cursor: pointer;
+}
+
+.cell:nth-child(1n + 2) {
+    background-color: #fff; /* Ausgrauen der ersten Zelle in jeder Zeile */
+}
+
+.cell.x {
+    color: blue; /* Farbe für X */
+	font-size: 56px;
+}
+
+.cell.o {
+    color: red; /* Farbe für O */
+	font-size: 56px;
+}
+
+button {
+    margin-top: 20px;
+	font-size: 32px;
 }
