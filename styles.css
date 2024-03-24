@@ -2,8 +2,9 @@
 
 #game-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(4, 1fr); /* 4 Spalten */
+    grid-template-rows: repeat(4, 1fr); /* 4 Zeilen */
+    gap: 10px; /* Abstand zwischen den Zellen */
 }
 
 .cell {
