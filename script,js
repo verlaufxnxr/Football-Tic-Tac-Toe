@@ -1,8 +1,58 @@
 // script.js
 
 // Zufällige Kategorien aus einer Liste ziehen
-const categories = ["Verein 1", "Verein 2", "Verein 3", /* ... weitere Kategorien */];
-
+const categories = [
+    "Manchester City",
+    "Bayern München",
+    "Real Madrid",
+    "Paris SG",
+    "FC Liverpool",
+    "Inter Mailand",
+    "RB Leipzig",
+    "FC Chelsea",
+    "AS Rom",
+    "Manchester Utd.",
+    "Borussia Dortmund",
+    "FC Barcelona",
+    "FC Sevilla",
+    "Atlético Madrid",
+    "Juventus Turin",
+    "FC Villarreal",
+    "SSC Neapel",
+    "Bayer Leverkusen",
+    "FC Porto",
+    "Benfica",
+    "Atalanta Bergamo",
+    "FC Arsenal",
+    "Ajax Amsterdam",
+    "West Ham United",
+    "Shakhtar Donetsk",
+    "AC Mailand",
+    "Olympique Lyon",
+    "Tottenham Hotspur",
+    "Zenit St. Petersburg",
+    "Lazio Rom",
+    "Olympique Marseille",
+    "Wolverhampton Wanderers",
+    "Eintracht Frankfurt",
+    "Rangers FC",
+    "Leicester City",
+    "VfL Wolfsburg",
+    "AS Monaco",
+    "PSV Eindhoven",
+    "Celtic FC",
+    "FC Brügge",
+    "Spartak Moskau",
+    "FC Basel",
+    "Stade Rennes",
+    "Feyenoord Rotterdam",
+    "Dynamo Kiew",
+    "Racing Straßburg",
+    "FC Kopenhagen",
+    "Standard Lüttich",
+    "PAOK Thessaloniki",
+    "FC Zürich"
+];
 function getRandomCategory() {
     return categories.splice(Math.floor(Math.random() * categories.length), 1)[0];
 }
