@@ -15,7 +15,7 @@ function chooseRandomData(arrays, itemsPerArray) {
 }
 
 const categories = [    
-	"Brasilien",
+    "Brasilien",
     "Argentinien",
     "Deutschland",
     "Spanien",
@@ -23,9 +23,10 @@ const categories = [
     "England",
     "Italien",
     "Uruguay",
-	"EM-Sieger",];
+    "EM-Sieger",
+];
 const categories2 = [    
-	"Manchester City",
+    "Manchester City",
     "Bayern München",
     "Real Madrid",
     "Paris SG",
@@ -45,9 +46,10 @@ const categories2 = [
     "Tottenham Hotspur",
     "Olympique Marseille",
     "Eintracht Frankfurt",
-    "VfL Wolfsburg"];
-const categories3 = ["Bundesliga Meister", "Premier League Meister", "La Liga Meister", "Serie A Meister",];
-const categories4 = ["TW", "LV", "IV", "RV", "Trainer", "Torschützenkönig"];
+    "VfL Wolfsburg"
+];
+const categories3 = ["Bundesliga Meister", "Premier League Meister", "La Liga Meister", "Serie A Meister"];
+const categories4 = ["Torwart", "Verteidiger", "Stürmer", "Trainer", "Mittelfeld", "Torschützenkönig"];
 const categories5 = ["über 1,80m", "unter 1,75m", "WM-Sieger", "UCL-Sieger", "tätowiert"];
 
 let originalCategories = categories.slice(); // Kopie der ursprünglichen Daten
@@ -74,7 +76,17 @@ function generateGameBoard() {
         for (let j = 1; j <= 4; j++) {
             const cell = document.createElement('div');
             cell.classList.add('cell');
-            if (i === 1 && j > 1) {
+            if (i === 1 && j === 1) {
+                const status = document.createElement('div');
+                status.classList.add('status');
+                status.textContent = 'Am Zug: ';
+                const currentPlayerSpan = document.createElement('span');
+                currentPlayerSpan.id = 'currentPlayer';
+                currentPlayerSpan.classList.add('currentPlayerSymbol');
+                currentPlayerSpan.textContent = 'X';
+                status.appendChild(currentPlayerSpan);
+                cell.appendChild(status);
+            } else if (i === 1 && j > 1) {
                 cell.textContent = shuffledCategories[j - 2];
             } else if (i > 1 && j === 1) {
                 cell.textContent = shuffledCategories[i + 1];
@@ -83,6 +95,8 @@ function generateGameBoard() {
         }
     }
 }
+
+
 
 function resetGame() {
     const gameBoard = document.getElementById('gameBoard');
@@ -99,19 +113,95 @@ function resetGame() {
     assignClickHandlers(); // Füge Click-Handler wieder hinzu
 }
 
+function skipTurn() {
+    currentPlayer = currentPlayer === 'x' ? 'o' : 'x';
+    updateCurrentPlayerDisplay(); // Aufruf der Funktion zur Aktualisierung der Spieleranzeige
+}
+
 generateGameBoard();
 assignClickHandlers(); // Initialzuweisung der Click-Handler
+
+function checkWin() {
+    const cells = document.querySelectorAll('.cell');
+
+    const winningConditions = [
+        // Horizontale Reihen
+        [5, 6, 7],
+        [9, 10, 11],
+        [13, 14, 15],
+        // Vertikale Reihen
+        [5, 9, 13],
+        [6, 10, 14],
+        [7, 11, 15],
+        // Diagonale Reihen
+        [7, 10, 13],
+        [5, 10, 15]
+    ];
+
+    for (const condition of winningConditions) {
+        const [a, b, c] = condition;
+        if (cells[a].textContent && cells[a].textContent === cells[b].textContent && cells[a].textContent === cells[c].textContent) {
+            return { winner: cells[a].textContent, cells: condition }; // Rückgabe des Gewinners und der gewinnenden Zellen
+        }
+    }
+
+    return null;
+}
+
+function endGame(winner, winningCells) {
+    const currentPlayerText = document.getElementById('currentPlayer');
+    currentPlayerText.textContent = `Spieler ${winner.toUpperCase()} hat gewonnen!`;
+    currentPlayerText.classList.remove('player-x', 'player-o');
+
+    // Färbe die Gewinnzellen grün ein
+    winningCells.forEach(cellIndex => {
+        const cell = document.querySelector(`.cell:nth-child(${cellIndex + 1})`);
+        cell.style.backgroundColor = 'lightgreen';
+    });
+
+    // Verberge das "Am Zug:"-Element
+    const statusElement = document.querySelector('.status');
+    statusElement.textContent = `Spieler ${winner.toUpperCase()} hat gewonnen!`; // Ändere den Textinhalt auf einen leeren String
+}
+
+
+
+function checkAndEndGame() {
+    const winInfo = checkWin();
+    if (winInfo) {
+        endGame(winInfo.winner, winInfo.cells);
+    }
+}
 
 function assignClickHandlers() {
     document.querySelectorAll('.cell').forEach(cell => {
         cell.addEventListener('click', () => {
-            if (!cell.textContent) { // Überprüfen, ob die Zelle leer ist
+            if (!cell.textContent) {
                 cell.textContent = currentPlayer;
-                cell.classList.add(currentPlayer); // Füge entsprechende Klasse hinzu
-                currentPlayer = currentPlayer === 'x' ? 'o' : 'x'; // Wechsel Spieler
+                cell.classList.add(currentPlayer);
+                currentPlayer = currentPlayer === 'x' ? 'o' : 'x';
+                document.getElementById('currentPlayer').textContent = currentPlayer.toUpperCase();
+                checkAndEndGame(); // Überprüfe, ob das Spiel beendet ist, nachdem ein Zug gemacht wurde
             }
         });
     });
+
+    document.getElementById('skipButton').addEventListener('click', skipTurn);
+}
+
+function skipTurn() {
+    currentPlayer = currentPlayer === 'x' ? 'o' : 'x';
+    updateCurrentPlayerDisplay(); // Aufruf der Funktion zur Aktualisierung der Spieleranzeige
+    checkAndEndGame(); // Überprüfe, ob das Spiel beendet ist, nachdem ein Zug übersprungen wurde
+}
+
+
+
+function updateCurrentPlayerDisplay() {
+    const currentPlayerText = document.getElementById('currentPlayer');
+    currentPlayerText.textContent = currentPlayer.toUpperCase();
+    currentPlayerText.classList.remove('player-x', 'player-o'); // Entferne vorherige Spielerklasse
+    currentPlayerText.classList.add('currentPlayerSymbol', 'player-' + currentPlayer); // Füge aktuelle Spielerklasse hinzu
 }
 
 let currentPlayer = 'x'; // Spieler 1 (X) beginnt
