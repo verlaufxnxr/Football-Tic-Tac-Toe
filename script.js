@@ -22,7 +22,8 @@ const categories = [
     "Frankreich",
     "England",
     "Italien",
-    "Uruguay",];
+    "Uruguay",
+	"EM-Sieger",];
 const categories2 = [    
 	"Manchester City",
     "Bayern München",
@@ -47,7 +48,7 @@ const categories2 = [
     "VfL Wolfsburg"];
 const categories3 = ["Bundesliga Meister", "Premier League Meister", "La Liga Meister", "Serie A Meister",];
 const categories4 = ["TW", "LV", "IV", "RV", "Trainer"];
-const categories5 = ["über 1,80m", "unter 1,75m", "EM-Sieger", "WM-Sieger", "UCL-Sieger", "tätowiert"];
+const categories5 = ["über 1,80m", "unter 1,75m", "WM-Sieger", "UCL-Sieger", "tätowiert"];
 
 let originalCategories = categories.slice(); // Kopie der ursprünglichen Daten
 let originalCategories2 = categories2.slice();
