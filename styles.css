@@ -1,10 +1,10 @@
 body {
-    font-family: Arial, sans-serif; /* Ändere den Font auf Arial */
+    font-family: Arial, sans-serif;
     margin: 0;
     display: flex;
-    justify-content: center; /* Zentriere das Grid horizontal */
-    align-items: center; /* Zentriere das Grid vertikal */
-    height: 100vh; /* Setze die Höhe auf 100% der Bildschirmhöhe */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .container {
@@ -20,7 +20,7 @@ body {
 
 .cell {
     border: 1px solid black;
-	background-color: #A9A9A9;
+    background-color: #A9A9A9;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,20 +28,36 @@ body {
 }
 
 .cell:nth-child(1n + 2) {
-    background-color: #fff; /* Ausgrauen der ersten Zelle in jeder Zeile */
+    background-color: #fff;
 }
 
 .cell.x {
-    color: blue; /* Farbe für X */
-	font-size: 56px;
+    color: blue;
+    font-size: 56px;
 }
 
 .cell.o {
-    color: red; /* Farbe für O */
-	font-size: 56px;
+    color: red;
+    font-size: 56px;
 }
 
 button {
     margin-top: 20px;
-	font-size: 32px;
+    font-size: 28px;
+}
+
+.status {
+    font-size: 24px;
+}
+
+.currentPlayerSymbol {
+    font-weight: bold;
+}
+
+.currentPlayerSymbol.x {
+    color: blue;
+}
+
+.currentPlayerSymbol.o {
+    color: red;
 }
