@@ -86,6 +86,16 @@ function generateGameBoard() {
                 currentPlayerSpan.textContent = 'X';
                 status.appendChild(currentPlayerSpan);
                 cell.appendChild(status);
+            } else if ((i === 1 && j > 1) || (j === 1 && i > 1)) {
+                cell.classList.add('editable');
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = 'Kategorie eingeben';
+                input.classList.add('category-input');
+                cell.appendChild(input);
+            } else {
+                cell.classList.add('game-cell'); // Füge 'game-cell' Klasse für Spielfeld-Zellen hinzu
+            }
             } else if (i === 1 && j > 1) {
                 cell.textContent = shuffledCategories[j - 2];
             } else if (i > 1 && j === 1) {
