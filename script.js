@@ -95,11 +95,11 @@ function generateGameBoard() {
                 cell.appendChild(input);
             } else {
                 cell.classList.add('game-cell'); // Füge 'game-cell' Klasse für Spielfeld-Zellen hinzu
-            }
-            } else if (i === 1 && j > 1) {
-                cell.textContent = shuffledCategories[j - 2];
-            } else if (i > 1 && j === 1) {
-                cell.textContent = shuffledCategories[i + 1];
+                if (i === 1 && j > 1) {
+                    cell.textContent = shuffledCategories[j - 2];
+                } else if (i > 1 && j === 1) {
+                    cell.textContent = shuffledCategories[i + 1];
+                }
             }
             gameBoard.appendChild(cell);
         }
