@@ -176,7 +176,6 @@ const moveStack = [];
 function addMove(index) {
     moveStack.push(index); // Fügen Sie den Index der aktuellen Zelle zum Stapel hinzu
 }
-
 // Funktion, um die Hintergrundfarbe aller Zellen zurückzusetzen
 function resetWinningCells(winningCells) {
     winningCells.forEach(cellIndex => {
@@ -208,21 +207,28 @@ function undoLastMove() {
 function updateCurrentPlayerDisplay() {
     const currentPlayerText = document.getElementById('currentPlayer');
     currentPlayerText.textContent = currentPlayer.toUpperCase();
-    currentPlayerText.classList.remove('player-x', 'player-o'); // Entferne vorherige Spielerklasse
-    currentPlayerText.classList.add('currentPlayerSymbol', 'player-' + currentPlayer); // Füge aktuelle Spielerklasse hinzu
+    currentPlayerText.classList.remove('player-x', 'player-o');
+    currentPlayerText.classList.add(`player-${currentPlayer}`);
 }
 
 function assignClickHandlers() {
-    document.querySelectorAll('.cell').forEach(cell => {
-        cell.addEventListener('click', () => {
-            if (!cell.textContent) {
-                cell.textContent = currentPlayer;
-                cell.classList.add(currentPlayer);
-                currentPlayer = currentPlayer === 'x' ? 'o' : 'x';
-                document.getElementById('currentPlayer').textContent = currentPlayer.toUpperCase();
-                checkAndEndGame(); // Überprüfe, ob das Spiel beendet ist, nachdem ein Zug gemacht wurde
-            }
-        });
+    const playableCells = [5, 6, 7, 9, 10, 11, 13, 14, 15]; // Indizes der spielbaren Zellen
+
+    document.querySelectorAll('.cell').forEach((cell, index) => {
+        if (playableCells.includes(index)) {
+            cell.addEventListener('click', () => {
+                if (!cell.textContent) {
+                    cell.textContent = currentPlayer;
+                    cell.classList.add(currentPlayer);
+                    addMove(index); // Füge den Zug zum Stapel hinzu
+                    currentPlayer = currentPlayer === 'x' ? 'o' : 'x';
+                    document.getElementById('currentPlayer').textContent = currentPlayer.toUpperCase();
+                    checkAndEndGame(); // Überprüfe, ob das Spiel beendet ist, nachdem ein Zug gemacht wurde
+                }
+            });
+        } else {
+            cell.classList.add('category-cell'); // Füge 'category-cell' Klasse für Kategorien-Zellen hinzu
+        }
     });
 
     document.getElementById('skipButton').addEventListener('click', skipTurn);
@@ -230,5 +236,7 @@ function assignClickHandlers() {
 
 // Weisen Sie dem Button das Event-Handler zu
 document.getElementById('undoButton').addEventListener('click', undoLastMove);
+
+
 
 let currentPlayer = 'x'; // Spieler 1 (X) beginnt
